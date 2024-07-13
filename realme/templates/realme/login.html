@@ -1,0 +1,30 @@
+{% extends "realme/base.html" %}
+{% block title %}Login{% endblock %}
+
+{% block styles %}
+{{ block.super }}
+<style>
+    body {
+        font-family: 'Roboto', sans-serif; /* Example: Using Roboto font family */
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card mt-5">
+                <div class="card-body">
+                    <h2 class="card-title">Login</h2>
+                    <form method='post'>
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-primary btn-lg">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

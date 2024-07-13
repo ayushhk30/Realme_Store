@@ -1,0 +1,71 @@
+{% extends 'realme/base.html' %}
+{% block title %}Mobile Detail{% endblock %}
+{% block content %}
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 20px;
+    }
+    h1, h2 {
+        color: #333;
+    }
+    p {
+        margin-bottom: 10px;
+    }
+    img {
+        max-width: 300px;
+        height: auto;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 5px;
+    }
+    .card {
+        margin-top: 20px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .card-body {
+        padding: 20px;
+    }
+    .card-title {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+    .card-text {
+        color: #555;
+    }
+    .btn-add-to-cart {
+        display: inline-block;
+        padding: 8px 16px;
+        margin-top: 20px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #fff;
+        background-color: #007bff;
+        border: 1px solid #007bff;
+        border-radius: 4px;
+        text-decoration: none;
+    }
+    .btn-add-to-cart:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+</style>
+
+<div class="card">
+    <div class="card-body">
+        <h1 class="card-title">Mobile Detail</h1>
+        <p class="card-text">Name: {{ mobile.name }}</p>
+        <p class="card-text">Price: {{ mobile.price }}</p>
+        <p class="card-text">Description: {{ mobile.description }}</p>
+        <p class="card-text">Color: {{ mobile.color }}</p>
+        {% if mobile.image %}
+        <img src="{{ mobile.image.url }}" class="card-img-top" alt="{{ mobile.name }}">
+        {% endif %}
+    </div>
+    <a href="{% url 'add_to_cart' 'mobile' mobile.id %}" class="btn-add-to-cart">Add To Cart</a>
+</div>
+{% endblock %}

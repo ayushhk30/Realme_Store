@@ -1,0 +1,10 @@
+{% extends 'realme/base.html' %}
+{% block title %} Mobile List {% endblock %}
+{% block content %}
+        <h2 class="my-4">List of Mobiles </h2>
+        <div class="list-group">
+        {% for mobile in mobiles %}
+            <a href="{% url 'mobile_detail' mobile.pk %}" class="list-group-item list-group-item-action">{{mobile.name}}</a>
+        {% endfor %}
+        </div>
+{% endblock %}

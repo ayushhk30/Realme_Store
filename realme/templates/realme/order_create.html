@@ -1,0 +1,62 @@
+{% extends "realme/base.html" %}
+{% block title %}Checkout Form{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Advanced CSS styles */
+    form {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+        width: 100%;
+        padding: 8px;
+        font-size: 14px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    button[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #45a049;
+    }
+</style>
+{% endblock %}
+{% block content %}
+    <h2>Checkout</h2>
+    <form method="post" class="container">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="form-group">
+            <button type="submit" class="btn btn-success btn-lg">Place Order</button>
+        </div>
+    </form>
+{% endblock %}

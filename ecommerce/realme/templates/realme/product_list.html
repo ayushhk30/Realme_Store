@@ -1,0 +1,10 @@
+{% extends 'realme/base.html' %}
+{% block title %} Product List {% endblock %}
+{% block content %}
+        <h2 class="my-4">List of products</h2>
+        <div class="list-group">
+        {% for product in products %}
+            <a href="{% url 'product_detail' product.pk %}" class="list-group-item list-group-item-action">{{product.name}}</a>
+        {% endfor %}
+        </div>
+{% endblock %}

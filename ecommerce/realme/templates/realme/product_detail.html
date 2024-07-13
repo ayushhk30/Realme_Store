@@ -1,0 +1,70 @@
+{% extends 'realme/base.html' %}
+{% block title %}Product Detail{% endblock %}
+{% block content %}
+
+<style>
+    body {
+        font-family: 'Roboto', sans-serif; /* Use Roboto font */
+        line-height: 1.6;
+        margin: 20px;
+    }
+    h1, h2 {
+        color: #333;
+    }
+    p {
+        margin-bottom: 10px;
+    }
+    img {
+        max-width: 100%;
+        height: auto;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 5px;
+        margin-top: 10px;
+    }
+    .card {
+        margin-top: 20px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .card-body {
+        padding: 20px;
+    }
+    .card-title {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+    .card-text {
+        color: #555;
+    }
+    .btn-add-to-cart {
+        display: block;
+        width: 100%;
+        padding: 8px 16px;
+        margin-top: 20px;
+        margin-bottom: 20px; /* Added margin */
+        font-size: 16px;
+        font-weight: bold;
+        color: #fff;
+        background-color: #007bff;
+        border: 1px solid #007bff;
+        border-radius: 4px;
+        text-decoration: none;
+    }
+    .btn-add-to-cart:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+</style>
+
+<div class="card my-4">
+    <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="max-width: 300px;"> <!-- Adjust max-width as needed -->
+    <div class="card-body">
+        <h1 class="card-title">Product Detail</h1>
+        <p class="card-text">{{ product.name }}</p>
+        <p class="card-text">Description: {{ product.description }}</p>
+        <a href="{% url 'add_to_cart' 'product' product.id %}" class="btn-add-to-cart">Add To Cart</a>
+    </div>
+</div>
+{% endblock %}

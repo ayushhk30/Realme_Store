@@ -1,0 +1,14 @@
+{% extends 'realme/base.html' %}
+{% block title %} MyCart {% endblock %}
+{% block content %}
+    <h2>Cart Details</h2>
+    <ul>
+        
+        {% for item in cart_items %}
+            <li> {{ item.get_item_name }} - {{ item.quantity }}</li>
+            <a href="{% url 'increase_quantity' item.id %}">+</a>
+            <a href="{% url 'decrease_quantity' item.id %}">-</a>
+        {% endfor %}
+        <h2>Total : {{ total }}</h2>
+    </ul>
+{% endblock %}

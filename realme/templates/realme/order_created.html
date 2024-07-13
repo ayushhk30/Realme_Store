@@ -1,0 +1,76 @@
+{% extends "realme/base.html" %}
+{% load static %}
+
+{% block title %}Order Created{% endblock %}
+
+{% block extra_css %}
+<style>
+    .container {
+        margin-top: 50px;
+        background-color: #f8f9fa;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    h2 {
+        color: #007bff;
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 28px;
+    }
+
+    p {
+        font-size: 18px;
+        line-height: 1.6;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    #rzp-button {
+        font-size: 20px;
+        padding: 15px 30px;
+        border-radius: 8px;
+        background: linear-gradient(to right, #4CAF50, #2196F3);
+        color: #fff;
+        border: none;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    #rzp-button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Thank you for your purchase!</h2>
+    <p>Your order has been successfully placed. Order ID: {{ order.id }}</p>
+    <p><button id="rzp-button" class="btn btn-primary">Pay With RazorPay</button></p>
+</div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    document.getElementById('rzp-button').onclick = function(e){
+        var options = {
+            key: "{{ razorpay_key_id }}",
+            amount: "{{ payment.amount }}",
+            currency: "INR",
+            order_id: "{{ payment.id }}",
+            name: "Realme Store",
+            description: "Payment for Order #{{ order.id }}",
+            prefill: {
+                name: "{{ order.first_name }}"
+            }
+        };
+        
+        var rzp = new Razorpay(options);
+        rzp.open();
+    }
+</script>
+{% endblock %}

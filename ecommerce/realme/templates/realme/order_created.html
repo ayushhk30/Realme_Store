@@ -1,0 +1,28 @@
+{% extends "realme/base.html" %}
+{% block title %}Order Created {% endblock %}
+
+{% block content %}
+<h2>Thank you for purchasing</h2>
+<p>Your order has been successfully placed. Your order id : {{ order.id }}</p>
+<p><button id="rzp-button">Pay With RazorPay<button></p>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        document.getElementById('rzp-button').onclick = function(e){
+        
+        var options = {
+                key:"{{ razorpay_key_id }}",
+                amount:"{{ payment.amount }}",
+                currency:"INR",
+                order_id:"{{ payment.id }}",
+                name:"IT Vedant",
+                description:"{{ order.id }}",
+                prefill:{ name:"{{ order.first_name }}"},
+        
+        };
+        //#var rzp = new RazorPay(options);  // incorrect way of initializing the Razorpay in javascript
+        var rzp = new Razorpay(options);
+        rzp.open();
+
+        }
+    </script>
+{% endblock %}
