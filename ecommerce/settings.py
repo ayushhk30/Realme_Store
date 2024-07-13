@@ -80,7 +80,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'realme_store',
         'USER': 'root',
-        'PASSWORD': 'kamble',
+        'PASSWORD': '*******',
         'HOST': 'localhost',
         #'PORT':'3307'
 
@@ -142,8 +142,8 @@ MEDIA_ROOT =os.path.join(BASE_DIR, 'media')
 
 
 
-RAZORPAY_TEST_KEY_ID = '************************'
-RAZORPAY_TEST_KEY_SECRET = '************************'
+RAZORPAY_TEST_KEY_ID = '************'
+RAZORPAY_TEST_KEY_SECRET = '****************'
 
 RAZORPAY_PAYMENT_SETTINGS = {
     'key_id': RAZORPAY_TEST_KEY_ID,
