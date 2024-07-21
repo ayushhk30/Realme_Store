@@ -2,171 +2,141 @@
 {% block title %}Product Detail{% endblock %}
 {% block content %}
 
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+<!-- Bootstrap CSS -->
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
 
-    body {
-        font-family: 'Roboto', Arial, sans-serif;
-        line-height: 1.6;
-        background-color: #f9f9f9;
-    }
-    h1, h2 {
-        color: #333;
-        font-family: 'Roboto', Arial, sans-serif;
-    }
-    p {
-        margin-bottom: 10px;
-        font-family: 'Roboto', Arial, sans-serif;
-    }
-    img {
-        max-width: 300px;
-        height: auto;
-        border-radius: 8px;
-        padding: 5px;
-        margin-bottom: 20px;
-        transition: transform 0.3s ease;
-    }
-    img:hover {
-        transform: scale(1.05);
-    }
-    .card {
+<!-- Custom Styles -->
+<style>
+  
+        body {
+            font-family: SF Pro SC,SF Pro Display,PingFang SC,Helvetica Neue,Helvetica,"Segoe UI",SegoeUI,Arial,sans-serif;
+        }
+    
+    .product-container {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
         margin-top: 20px;
-        border: none;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        background-color: #fff;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        max-width: 600px;
-        margin: 20px auto;
     }
-    .card-body {
-        padding: 20px;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+ .product-img {
+    flex: 1;
+    max-width: 500px; /* Increased max-width for larger image size */
+    margin-right: 20px;
+}
+.product-img img {
+    width: 100%;
+    height: auto; /* Ensure height adjusts automatically */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+    
+    .product-details {
+        flex: 2;
     }
     .card-title {
-        font-size: 28px;
-        margin-bottom: 10px;
+        font-size: 1.5rem;
         color: #007bff;
-        font-family: 'Roboto', Arial, sans-serif;
-    }
-    .card-text {
-        color: #555;
-        font-size: 16px;
-        margin-bottom: 5px;
-        font-family: 'Roboto', Arial, sans-serif;
-    }
-    .card-text span {
-        font-weight: bold;
-        color: #333;
+        margin-bottom: 10px;
     }
     .btn-add-to-cart {
-        display: inline-block;
-        padding: 12px 24px;
-        margin-top: 20px;
-        font-size: 16px;
         font-weight: bold;
-        color: #fff;
-        background-color: #007bff;
-        border: none;
-        border-radius: 25px;
-        text-decoration: none;
-        transition: background-color 0.3s ease, transform 0.3s ease;
-        font-family: 'Roboto', Arial, sans-serif;
-    }
-    .btn-add-to-cart:hover {
-        background-color: #0056b3;
-        transform: scale(1.05);
-    }
-    .specifications {
+        text-transform: uppercase;
         margin-top: 20px;
-        width: 100%;
+    }
+    .specifications, .reviews {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         padding: 20px;
-        background-color: #f8f9fa;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    .specifications h2 {
-        font-size: 24px;
-        margin-bottom: 10px;
-        color: #007bff;
-        font-family: 'Roboto', Arial, sans-serif;
-    }
-    .specifications p {
-        margin-bottom: 10px;
-        font-family: 'Roboto', Arial, sans-serif;
-    }
-    .reviews {
         margin-top: 20px;
-        width: 100%;
-        padding: 20px;
-        background-color: #f8f9fa;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
-    .reviews h2 {
-        font-size: 24px;
-        margin-bottom: 10px;
+    .specifications h2, .reviews h2 {
+        font-size: 1.5rem;
         color: #007bff;
-        font-family: 'Roboto', Arial, sans-serif;
+        margin-bottom: 15px;
+    }
+    .specifications ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    .specifications li {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid #ddd;
+    }
+    .specifications li:last-of-type {
+        border-bottom: none;
     }
     .reviews .review-item {
-        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
         padding: 10px;
-        background-color: #fff;
-        border-radius: 4px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        background-color: #f9f9f9;
+        margin-bottom: 10px;
+        transition: box-shadow 0.3s, transform 0.3s;
     }
-    .reviews .review-item .review-text {
-        color: #555;
-        font-size: 16px;
-        margin-bottom: 5px;
-        font-family: 'Roboto', Arial, sans-serif;
+    .reviews .review-item:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transform: scale(1.02);
     }
-    .reviews .review-item .review-author {
+    .reviews .review-author {
         color: #007bff;
         font-weight: bold;
-        font-family: 'Roboto', Arial, sans-serif;
     }
 </style>
 
-<div class="card">
-    <div class="card-body">
-        {% if product.image %}
-        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
-        {% endif %}
+<div class="container">
+    <div class="product-container">
+        <!-- Product Image -->
+        <div class="product-img">
+            {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            {% endif %}
+        </div>
 
-        <p class="card-text"><span>Description:</span> {{ product.description }}</p>
-        <a href="{% url 'add_to_cart' 'product' product.id %}" class="btn-add-to-cart">Add To Cart</a>
+        <!-- Product Details -->
+        <div class="product-details">
+            <div class="card-body">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <p class="card-text"><strong>Description:</strong> {{ product.description }}</p>
+                <a href="{% url 'add_to_cart' 'product' product.id %}" class="btn btn-primary btn-add-to-cart">Add To Cart</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Specifications -->
+    <div class="specifications mt-4">
+        <h2>Specifications</h2>
+        <ul>
+            <li><strong>Brand:</strong> <span>{{ product.name }}</span></li>
+            <li><strong>With Mic:</strong> <span>{{ product.mic }}</span></li>
+            <li><strong>Bluetooth Version:</strong> <span>{{ product.bluetooth }}</span></li>
+            <li><strong>Wireless Range:</strong> <span>{{ product.range }}</span></li>
+            <li><strong>Battery:</strong> <span>{{ product.battery }}</span></li>
+            <li><strong>Color:</strong> <span>{{ product.colors }}</span></li>
+            <li><strong>Price:</strong> <span>{{ product.price }}</span></li>
+        </ul>
+    </div>
+
+    <!-- Reviews -->
+    <div class="reviews mt-4">
+        <h2>Reviews</h2>
+        {% for review in product.reviews.all %}
+        <div class="review-item">
+            <p class="review-text">{{ review.content }}</p>
+            <p class="review-author">- {{ review.author }}</p>
+        </div>
+        {% empty %}
+       {{product.review}}
+        {% endfor %}
     </div>
 </div>
 
-<div class="specifications">
-    <h2>Specifications</h2>
-    <p><span>Brand:</span> {{ product.name }}</p>
-    <p><span>With Mic:</span> {{ product.mic }}</p>
-    <p><span>Bluetooth Version:</span> {{ product.bluetooth }}</p>
-    <p><span>Wireless Range:</span> {{ product.range }}</p>
-    <p><span>Battery:</span> {{ product.battery }}</p>
-    <p><span>Color:</span> {{ product.colors }}</p>
-    <p><span>Price:</span> {{ product.price }}</p>
-</div>
-
-<div class="reviews">
-    <h2>Reviews</h2>
-    {% for review in product.reviews.all %}
-    <div class="review-item">
-        <p class="review-text">{{ review.content }}</p>
-        <p class="review-author">- {{ review.author }}</p>
-    </div>
-    {% empty %}
-    <p> {{ product.review }}</p>
-    {% endfor %}
-</div>
+<!-- Bootstrap JS Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
 
 {% endblock %}

@@ -3,7 +3,7 @@ import razorpay
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404, redirect
-from . models import Mobile, Product, Cart, CartItem, OrderItems 
+from . models import Mobile, Product, Cart, CartItem, OrderItems , Wishlist
 from . forms import OrderCreateForm, SearchForm
 from django.contrib.auth.decorators import login_required
 from . forms import UserRegistrationForm
@@ -27,6 +27,37 @@ def mobile_detail(request, pk):
     mobile = get_object_or_404(Mobile, pk=pk)
     return render(request, 'realme/mobile_detail.html', {'mobile': mobile})
 
+def add_to_wishlist(request, item_type, item_id):
+    # Ensure you handle both item_type and item_id as parameters
+    if item_type == 'mobile':
+        mobile = get_object_or_404(Mobile, pk=item_id)
+        # Add mobile to wishlist logic here
+        # Example: request.session.setdefault('wishlist', {})[item_id] = item_type
+        wishlist = request.session.get('wishlist', {})
+        wishlist[item_id] = item_type
+        request.session['wishlist'] = wishlist
+    # Handle other item types if necessary
+    return redirect('wishlist')  # Redirect to the wishlist page
+
+def remove_from_wishlist(request, item_type, item_id):
+    wishlist = request.session.get('wishlist', {})
+    if str(item_id) in wishlist and wishlist[str(item_id)] == item_type:
+        del wishlist[str(item_id)]
+        request.session['wishlist'] = wishlist
+    return redirect('wishlist')
+
+
+
+def wishlist(request):
+    wishlist = request.session.get('wishlist', {})
+    mobile_ids = [id for id, type in wishlist.items() if type == 'mobile']
+
+    wishlist_mobiles = Mobile.objects.filter(id__in=mobile_ids)
+
+    return render(request, 'wishlist.html', {
+        'wishlist_mobiles': wishlist_mobiles,
+    })
+    return render(request, 'realme/wishlist.html', {'wishlist_mobiles': wishlist_mobiles})
 
 def product_list(request):
     form = SearchForm(request.GET or None)
@@ -113,11 +144,13 @@ def add_to_cart(request, item_type, item_id):
     cart_item.save()
     return redirect('cart_detail')
 
-def increase_qunatity(request, item_id):
+def increase_quantity(request, item_id):
+    # Fetch the CartItem object, not the Cart object
     cart_item = get_object_or_404(CartItem, id=item_id)
     cart_item.quantity += 1
     cart_item.save()
     return redirect('cart_detail')
+
 
 def decrease_quantity(request, item_id):
     cart_item = get_object_or_404(CartItem, id=item_id)
@@ -127,6 +160,17 @@ def decrease_quantity(request, item_id):
     else:
         cart_item.delete()
     return redirect('cart_detail')
+
+def delete_from_cart(request, item_id):
+    item = get_object_or_404(CartItem, id=item_id)
+    item.delete()
+    messages.success(request, 'Item has been removed from your cart.')
+    return redirect('cart_detail')  # Ensure this matches the name in your urls.py
+
+def cart_view(request):
+    cart_items = CartItem.objects.filter(user=request.user)  # Adjust according to your logic
+    total = sum(item.quantity * item.product.price for item in cart_items)  # Adjust according to your logic
+    return render(request, 'realme/cart.html', {'cart_items': cart_items, 'total': total})
 
 @login_required
 def order_create(request):

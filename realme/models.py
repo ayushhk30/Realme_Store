@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
 
 # Create your models here.
 class Mobile(models.Model):
@@ -18,6 +19,18 @@ class Mobile(models.Model):
 
     def __str__(self):
         return f"{self.name}"
+    
+
+class Wishlist(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_wishlist')
+    mobile = models.ForeignKey(Mobile, on_delete=models.CASCADE)
+    
+  
+
+    class Meta:
+        unique_together = ('user', 'mobile')
+
+User.add_to_class('wishlist', models.ManyToManyField(Mobile, through=Wishlist, related_name='wishlisted_by'))
     
 class Product(models.Model):
     image = models.ImageField(upload_to='products/', blank=True, null=True)

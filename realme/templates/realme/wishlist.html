@@ -1,0 +1,27 @@
+{% extends 'realme/base.html' %}
+{% block title %}My Wishlist{% endblock %}
+{% block content %}
+    <div class="container">
+        <h2 class="my-4">My Wishlist</h2>
+        <div class="row card-container">
+            {% for mobile in wishlist_mobiles %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="{{ mobile.image.url }}" class="card-img-top" alt="{{ mobile.name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ mobile.name }}</h5>
+                            <a href="{% url 'mobile_detail' mobile.pk %}" class="quick-view-button btn btn-success">Quick View</a>
+                            <a href="{% url 'remove_from_wishlist' item_type='mobile' item_id=mobile.id %} "class="quick-view-button btn btn-danger">Remove from Wishlist</a>
+
+
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center">
+                    <p class="text-muted">Nothing to display. Your wishlist is empty.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
